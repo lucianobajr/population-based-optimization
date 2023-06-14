@@ -44,7 +44,7 @@ $Minimize [1]$:
 
 <center>
 
-f($\overset{\rightarrow}{x}$) = $ 5 \sum{i=1}^{4} x_i $ - $ 5 \sum{i=1}^{4} x^2_i $ - $\sum{i=5}^{13} x_i $
+$f(\overset{\rightarrow}{x}) = 5 \sum{i=1}^{4} x_i  -  5 \sum{i=1}^{4} x^2_i  - \sum{i=5}^{13} x_i $
 
 </center>
 

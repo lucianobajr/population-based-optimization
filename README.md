@@ -80,7 +80,7 @@ $$0 \leq x \leq 1 (i = 1,...,9), 0 \leq  x_i \leq 100  (i = 10, 11, 12) and 0 \l
 
 </center>
 
-### 2) Problema com 2 variáveis de decisão (x 1 até x 2 ) e 5 restrições (2 de desigualdade e 3 de
+### 2) Problema com 2 variáveis de decisão ($x_1$ até $x_2$ ) e 5 restrições (2 de desigualdade e 3 de
 igualdade).
 
 g05

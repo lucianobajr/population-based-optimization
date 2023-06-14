@@ -42,11 +42,11 @@ g01
 
 $Minimize [1]$:
 
-````markdown
+<center>
 
-f(\overset{\rightarrow}{x}) = 5 \sum_{i=1}^{4} x_i  -  5 \sum_{i=1}^{4} x^2_i  - \sum_{i=5}^{13} x_i
-````
+$$ f(\overset{\rightarrow}{x}) = 5 \sum_{i=1}^4 x_i - 5 \sum_{i=1}^4 x²_i -  \sum_{i=5}^{13} x_i $$
 
+</center>
 
 subject to:
 

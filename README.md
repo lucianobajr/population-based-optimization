@@ -52,23 +52,23 @@ subject to:
 
 <center>
 
-$g_1$($\overset{\rightarrow}{x}$)  =  $2x_1$ + $2x_2$ + $x_{10}$ + $x_{11}$ - 10 $\leq 0 $
+$$g_1(\overset{\rightarrow}{x})  =  2x_1 + 2x_2 + x_{10} + x_{11} - 10 \leq 0 $$
 
-$g_2$($\overset{\rightarrow}{x}$) = $2x_1$ + $2x_3$ + $x_{10}$ + $x_{12}$ - 10 $\leq 0 $
+$$g_2(\overset{\rightarrow}{x}) = 2x_1 + 2x_3 + x_{10} + x_{12} - 10 \leq 0 $$
 
-$g_3$($\overset{\rightarrow}{x}$) = $2x_2$ + $2x_3$ + $x_{11}$ + $x_{12}$ - 10 $\leq 0 $
+$$g_3(\overset{\rightarrow}{x}) = 2x_2 + 2x_3 + x_{11} + x_{12} - 10 \leq 0 $$
 
-$g_4$($\overset{\rightarrow}{x}$) = $-8x_1$ + $x_{10}$ $\leq 0 $
+$$g_4(\overset{\rightarrow}{x}) = -8x_1 + x_{10} \leq 0 $$
 
-$g_5$($\overset{\rightarrow}{x}$) = $-8x_2$ + $x_{11}$ $\leq 0 $
+$$g_5(\overset{\rightarrow}{x}) = -8x_2 + x_{11} \leq 0 $$
 
-$g_6$($\overset{\rightarrow}{x}$) = $-8x_3$ + $x_{12}$ $\leq 0 $
+$$g_6(\overset{\rightarrow}{x}) = -8x_3 + x_{12} \leq 0 $$
 
-$g_7$($\overset{\rightarrow}{x}$) = $-2x_4$ - $x_5$ + $x_{10}$ $\leq 0 $
+$$g_7(\overset{\rightarrow}{x}) = -2x_4 - x_5 + x_{10} \leq 0 $$
 
-$g_8$($\overset{\rightarrow}{x}$) = $-2x_6$ - $x_7$ + $x_{11}$ $\leq 0 $
+$$g_8(\overset{\rightarrow}{x}) = -2x_6 - x_7 + x_{11} \leq 0 $$
 
-$g_9$($\overset{\rightarrow}{x}$) = $-2x_8$ - $x_9$ + $x_{12}$ $\leq 0 $
+$$g_9(\overset{\rightarrow}{x}) = -2x_8 - x_9 + x_{12} \leq 0 $$
 
 </center>
 

@@ -89,7 +89,7 @@ $Minimize [3]$:
 
 <center>
 
-f($\overset{\rightarrow}{x}$) = $ 3x_1 + 0.000001x³_1 + 2x_2 + (0.000002/3)x³_2 $
+$f(\overset{\rightarrow}{x}) =  3x_1 + 0.000001x³_1 + 2x_2 + (0.000002/3)x³_2 $
 
 </center>
 
@@ -97,15 +97,15 @@ subject to:
 
 <center>
 
-$g_1$($\overset{\rightarrow}{x}$)  =  $-x_4 + x_3 - 0.55$ $\leq 0 $
+$g_1(\overset{\rightarrow}{x})  =  -x_4 + x_3 - 0.55 \leq 0 $
 
-$g_2$($\overset{\rightarrow}{x}$) = $-x_3 + x_4 - 0.55$ $\leq 0 $
+$g_2(\overset{\rightarrow}{x}) = -x_3 + x_4 - 0.55 \leq 0 $
 
-$h_3$($\overset{\rightarrow}{x}$) = $1000sin(-x_3 - 0.25) + 1000sin(-x_4 - 0.25) + 894.8 -x_1 $ $ = 0 $
+$h_3(\overset{\rightarrow}{x}) = 1000sin(-x_3 - 0.25) + 1000sin(-x_4 - 0.25) + 894.8 -x_1   = 0 $
 
-$h_4$($\overset{\rightarrow}{x}$) = $1000sin(x_3 - 0.25) + 1000sin(x_3 - x_4 - 0.25) + 894.8 -x_2 $ $ = 0 $
+$h_4(\overset{\rightarrow}{x}) = 1000sin(x_3 - 0.25) + 1000sin(x_3 - x_4 - 0.25) + 894.8 -x_2   = 0 $
 
-$h_5$($\overset{\rightarrow}{x}$) = $1000sin(x_4 - 0.25) + 1000sin(x_4 - x_3 - 0.25) + 1294.8 $ $ = 0 $
+$h_5(\overset{\rightarrow}{x}) = 1000sin(x_4 - 0.25) + 1000sin(x_4 - x_3 - 0.25) + 1294.8   = 0 $
 
 </center>
 

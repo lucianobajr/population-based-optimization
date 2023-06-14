@@ -7,7 +7,7 @@ Considerando a seguinte formulação:
 
 <center>
 
-Minimize f($\overset{\rightarrow}{x}$),$\overset{\rightarrow}{x}$ = $[ {x_1},{x_2},{...},{x_n} ]$
+Minimize $f(\overset{\rightarrow}{x}),\overset{\rightarrow}{x} = [ {x_1},{x_2},{...},{x_n} ]$
 
 </center>
 
@@ -29,7 +29,7 @@ $\left| h_j(\overset{\rightarrow}{x}) \right| - \epsilon \leq 0, for$ $j = q + 1
 
 </center>
 
-A solution $\overset{\rightarrow}{x}$ is regarded as *feasible* if $g_i(\overset{\rightarrow}{x}) \leq 0$, $for j = 1,...,q $ and $\left| h_j(\overset{\rightarrow}{x}) \right| - \epsilon \leq 0, for$ $j = q + 1,...,m$.  In this special session $\epsilon$ is set to  0.0001.
+A solution $\overset{\rightarrow}{x}$ is regarded as *feasible* if $g_i(\overset{\rightarrow}{x}) \leq 0$, for j = 1,...,q  and $\left| h_j(\overset{\rightarrow}{x}) \right| - \epsilon \leq 0, for$ $j = q + 1,...,m$.  In this special session $\epsilon$ is set to  0.0001.
 
 
 Implementar um algoritmo baseado em Computação Evolutiva (AG, ES, PE ou PG) ou

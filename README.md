@@ -7,7 +7,7 @@ Considerando a seguinte formulação:
 
 <center>
 
-Minimize $f(\overset{\rightarrow}{x}),\overset{\rightarrow}{x} = [ {x_1},{x_2},{...},{x_n} ]$
+$$Minimize f(\overset{\rightarrow}{x}),\overset{\rightarrow}{x} = [ {x_1},{x_2},{...},{x_n} ]$$
 
 </center>
 
@@ -15,9 +15,9 @@ Subject to:
 
 <center>
 
-$g_i(\overset{\rightarrow}{x}) \leq 0$, $i = 1,..., q$
+$$g_i(\overset{\rightarrow}{x}) \leq 0, i = 1,..., q$$
 
-$h_j(\overset{\rightarrow}{x}) = 0$, $j = q+1,..., m$
+$$h_j(\overset{\rightarrow}{x}) = 0, j = q+1,..., m$$
 
 </center>
 
@@ -25,7 +25,7 @@ Usually equality constraints are transformed into inequalities of the form
 
 <center>
 
-$\left| h_j(\overset{\rightarrow}{x}) \right| - \epsilon \leq 0, for$ $j = q + 1,...,m $
+$$\left| h_j(\overset{\rightarrow}{x}) \right| - \epsilon \leq 0, for j = q + 1,...,m $$
 
 </center>
 
@@ -76,7 +76,7 @@ com
 
 <center>
 
-$0 \leq x \leq 1 (i = 1,...,9), 0 \leq  x_i \leq 100$  $(i = 10, 11, 12)$ and $0 \leq  x_{13} \leq 1$
+$$0 \leq x \leq 1 (i = 1,...,9), 0 \leq  x_i \leq 100  (i = 10, 11, 12) and 0 \leq  x_{13} \leq 1$$
 
 </center>
 

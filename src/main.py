@@ -11,7 +11,7 @@ def bootstrap_first():
     gp_first_a = GeneticProgrammingFirst(pop_size=100, num_generations=100, tournament_size=10, mutation_rate=0.1, penalty_method="static_penalty")
     results_first_a = []
 
-    for _ in range(5):
+    for _ in range(30):
         best_solutions_a = gp_first_a.run()
         results_first_a.append(best_solutions_a)
 
@@ -21,7 +21,7 @@ def bootstrap_first():
     # Configuration B: ɛ-constrained method
     gp_second_b = GeneticProgrammingFirst(pop_size=100, num_generations=100, tournament_size=10, mutation_rate=0.1, penalty_method="epsilon_constraint")
     results_first_b = []
-    for _ in range(5):
+    for _ in range(30):
         best_solutions_b= gp_second_b.run()
         results_first_b.append(best_solutions_b)
 
@@ -36,7 +36,7 @@ def bootstrap_second():
     gp_first_a = GeneticProgrammingSecond(pop_size=100, num_generations=100, tournament_size=10, mutation_rate=0.1, penalty_method="static_penalty")
     results_first_a = []
 
-    for _ in range(5):
+    for _ in range(30):
         best_solutions_a = gp_first_a.run()
         results_first_a.append(best_solutions_a)
 
@@ -46,7 +46,7 @@ def bootstrap_second():
     # Configuration B: ɛ-constrained method
     gp_second_b = GeneticProgrammingSecond(pop_size=100, num_generations=100, tournament_size=10, mutation_rate=0.1, penalty_method="epsilon_constraint")
     results_first_b = []
-    for i in range(5):
+    for i in range(30):
         best_solutions_b= gp_second_b.run()
         results_first_b.append(best_solutions_b)
 

@@ -57,24 +57,33 @@ class GeneticAlgorithm:
     def select_parents(self, population):
         parents = []
         for _ in range(self.pop_size):
-            tournament = random.sample(range(self.pop_size), 2)
+            tournament = random.sample(range(self.pop_size), 3)
             if self.penalty_method == "static":
                 fitness1 = self.penalty_function(population[tournament[0]])
                 fitness2 = self.penalty_function(population[tournament[1]])
+                fitness3 = self.penalty_function(population[tournament[2]])
             else:
                 fitness1 = self.penalty_function_epsilon(population[tournament[0]])
                 fitness2 = self.penalty_function_epsilon(population[tournament[1]])
-            if fitness1 <= fitness2:
+                fitness3 = self.penalty_function_epsilon(population[tournament[2]])
+            if fitness1 <= fitness2 and fitness1 <= fitness3:
                 parents.append(population[tournament[0]])
-            else:
+            elif fitness2 <= fitness1 and fitness2 <= fitness3:
                 parents.append(population[tournament[1]])
+            else:
+                parents.append(population[tournament[2]])
         return parents
 
-    def crossover(self, parent1, parent2):
-        point = random.randint(1, self.n_variables - 1)
-        child1 = parent1[:point] + parent2[point:]
-        child2 = parent2[:point] + parent1[point:]
-        return child1, child2
+    def crossover(self, parent1, parent2, parent3):
+        point1 = random.randint(1, self.n_variables - 1)
+        point2 = random.randint(point1, self.n_variables - 1)
+        
+        child1 = parent1[:point1] + parent2[point1:point2] + parent3[point2:]
+        child2 = parent2[:point1] + parent3[point1:point2] + parent1[point2:]
+        child3 = parent3[:point1] + parent1[point1:point2] + parent2[point2:]
+        
+        return child1, child2, child3
+
 
     def mutate(self, individual):
         for i in range(self.n_variables):
@@ -104,12 +113,14 @@ class GeneticAlgorithm:
 
             offspring = []
             while len(offspring) < self.pop_size:
-                parent1, parent2 = random.sample(parents, 2)
-                child1, child2 = self.crossover(parent1, parent2)
+                parent1, parent2, parent3 = random.sample(parents, 3)
+                child1, child2, child3 = self.crossover(parent1, parent2, parent3)
                 child1 = self.mutate(child1)
                 child2 = self.mutate(child2)
+                child3 = self.mutate(child3)
                 offspring.append(child1)
                 offspring.append(child2)
+                offspring.append(child3)
 
             offspring_fitness = self.evaluate_population(offspring)
 

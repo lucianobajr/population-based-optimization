@@ -1,18 +1,18 @@
 import statistics
 
-from pg import GeneticProgramming
+from exercice2 import GeneticProgramming
 
 # Configuration A: Penalty Estática
-gp_a = GeneticProgramming(pop_size=100, num_generations=100, tournament_size=10, mutation_rate=0.1, penalty_method="static_penalty")
+gp_a = GeneticProgramming(pop_size=2, num_generations=2, tournament_size=1, mutation_rate=0.1, penalty_method="static_penalty")
 results_a = []
-for _ in range(30):
+for _ in range(1):
     best_solutions_a = gp_a.run()
     results_a.append([gp_a.evaluate(solution) for solution in best_solutions_a])
 
 # Configuration B: ɛ-constrained method
-gp_b = GeneticProgramming(pop_size=100, num_generations=100, tournament_size=10, mutation_rate=0.1, penalty_method="epsilon_constraint")
+gp_b = GeneticProgramming(pop_size=2, num_generations=2, tournament_size=1, mutation_rate=0.1, penalty_method="epsilon_constraint")
 results_b = []
-for _ in range(30):
+for _ in range(1):
     best_solutions_b = gp_b.run()
     results_b.append([gp_b.evaluate(solution) for solution in best_solutions_b])
 

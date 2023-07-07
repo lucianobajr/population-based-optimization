@@ -1,6 +1,5 @@
 import random
 import math
-import statistics
 
 class GeneticProgramming:
     def __init__(self, pop_size, num_generations, tournament_size, mutation_rate, penalty_method):
@@ -10,72 +9,111 @@ class GeneticProgramming:
         self.mutation_rate = mutation_rate
         self.penalty_method = penalty_method
 
+    def objective_function(self, x):
+        return 5 * sum(x[:4]) - 5 * sum([xi**2 for xi in x[:4]]) - sum(x[4:13])
+
     def evaluate(self, individual):
         if self.penalty_method == "static_penalty":
             penalty = self.calculate_static_penalty(individual)
-            return 5 * sum(individual[:4]) - 5 * sum([xi**2 for xi in individual[:4]]) - sum(individual[4:13]) + penalty
+            return self.objective_function(individual) + penalty
         elif self.penalty_method == "epsilon_constraint":
-            violation = self.calculate_constraint_violation(individual)
+            violation = self.calculate_epsilon_constraint_method(individual)
             if violation > 0:
                 return math.inf
             else:
-                return 5 * sum(individual[:4]) - 5 * sum([xi**2 for xi in individual[:4]]) - sum(individual[4:13])
+                return self.objective_function(individual)
 
     def calculate_static_penalty(self, individual):
         penalty = 0
+
         # Constraint g1
-        if 2*individual[0] + 2*individual[1] + individual[9] + individual[10] - 10 > 0:
-            penalty += 1000 * (2*individual[0] + 2*individual[1] + individual[9] + individual[10] - 10)
+        g1_penalty = max(0, 2 * individual[0] + 2 * individual[1] + individual[9] + individual[10] - 10)
+        penalty += math.pow(g1_penalty,2)
+
         # Constraint g2
-        if 2*individual[0] + 2*individual[2] + individual[9] + individual[11] - 10 > 0:
-            penalty += 1000 * (2*individual[0] + 2*individual[2] + individual[9] + individual[11] - 10)
+        g2_penalty = max(0, 2 * individual[0] + 2 * individual[2] + individual[9] + individual[11] - 10)
+        penalty += math.pow(g2_penalty,2)
+
         # Constraint g3
-        if 2*individual[1] + 2*individual[2] + individual[10] + individual[11] - 10 > 0:
-            penalty += 1000 * (2*individual[1] + 2*individual[2] + individual[10] + individual[11] - 10)
+        g3_penalty = max(0, 2 * individual[1] + 2 * individual[2] + individual[10] + individual[11] - 10)
+        penalty += math.pow(g3_penalty,2)
+
         # Constraint g4
-        if -8*individual[0] + individual[9] > 0:
-            penalty += 1000 * (-8*individual[0] + individual[9])
+        g4_penalty = max(0, -8 * individual[0] + individual[9])
+        penalty += math.pow(g4_penalty,2)
+
         # Constraint g5
-        if -8*individual[1] + individual[10] > 0:
-            penalty += 1000 * (-8*individual[1] + individual[10])
+        g5_penalty = max(0, -8 * individual[1] + individual[10])
+        penalty += math.pow(g5_penalty,2)
+
         # Constraint g6
-        if -8*individual[2] + individual[11] > 0:
-            penalty += 1000 * (-8*individual[2] + individual[11])
+        g6_penalty = max(0, -8 * individual[2] + individual[11])
+        penalty += math.pow(g6_penalty,2)
+
         # Constraint g7
-        if -2*individual[3] - individual[4] + individual[9] > 0:
-            penalty += 1000 * (-2*individual[3] - individual[4] + individual[9])
+        g7_penalty = max(0, -2 * individual[3] - individual[4] + individual[9])
+        penalty += math.pow(g7_penalty,2)
+
         # Constraint g8
-        if -2*individual[5] - individual[6] + individual[10] > 0:
-            penalty += 1000 * (-2*individual[5] - individual[6] + individual[10])
+        g8_penalty = max(0, -2 * individual[5] - individual[6] + individual[10])
+        penalty += math.pow(g8_penalty,2)
+
         # Constraint g9
-        if -2*individual[7] - individual[8] + individual[11] > 0:
-            penalty += 1000 * (-2*individual[7] - individual[8] + individual[11])
+        g9_penalty = max(0, -2 * individual[7] - individual[8] + individual[11])
+        penalty += math.pow(g9_penalty,2)
+
+        # Add constraints for upper and lower bounds of variables
+        for i in range(len(individual)):
+            if i < 9:  # x1 to x9
+                if individual[i] < 0 or individual[i] > 1:
+                    penalty += 1000
+            elif i < 12:  # x10 to x12
+                if individual[i] < 0 or individual[i] > 100:
+                    penalty += 1000
+            else:  # x13
+                if individual[i] < 0 or individual[i] > 1:
+                    penalty += 1000
 
         return penalty
+    
+    def calculate_epsilon_constraint_method(self, individual):
+        # Parâmetro epsilon
+        epsilon = 1e-6
 
-    def calculate_constraint_violation(self, individual):
-        violations = []
+        # Avaliar a função objetivo
+        objective_value = self.objective_function(individual)
+
+        # Calcular as violações das restrições
+        constraint_violations = []
         # Constraint g1
-        violations.append(max(0, 2*individual[0] + 2*individual[1] + individual[9] + individual[10] - 10))
+        constraint_violations.append(max(0, 2*individual[0] + 2*individual[1] + individual[9] + individual[10] - 10))
         # Constraint g2
-        violations.append(max(0, 2*individual[0] + 2*individual[2] + individual[9] + individual[11] - 10))
+        constraint_violations.append(max(0, 2*individual[0] + 2*individual[2] + individual[9] + individual[11] - 10))
         # Constraint g3
-        violations.append(max(0, 2*individual[1] + 2*individual[2] + individual[10] + individual[11] - 10))
+        constraint_violations.append(max(0, 2*individual[1] + 2*individual[2] + individual[10] + individual[11] - 10))
         # Constraint g4
-        violations.append(max(0, -8*individual[0] + individual[9]))
+        constraint_violations.append(max(0, -8*individual[0] + individual[9]))
         # Constraint g5
-        violations.append(max(0, -8*individual[1] + individual[10]))
+        constraint_violations.append(max(0, -8*individual[1] + individual[10]))
         # Constraint g6
-        violations.append(max(0, -8*individual[2] + individual[11]))
+        constraint_violations.append(max(0, -8*individual[2] + individual[11]))
         # Constraint g7
-        violations.append(max(0, -2*individual[3] - individual[4] + individual[9]))
+        constraint_violations.append(max(0, -2*individual[3] - individual[4] + individual[9]))
         # Constraint g8
-        violations.append(max(0, -2*individual[5] - individual[6] + individual[10]))
+        constraint_violations.append(max(0, -2*individual[5] - individual[6] + individual[10]))
         # Constraint g9
-        violations.append(max(0, -2*individual[7] - individual[8] + individual[11]))
+        constraint_violations.append(max(0, -2*individual[7] - individual[8] + individual[11]))
 
-        return sum(violations)
+        # Calcular a violação total das restrições
+        total_violation = sum(constraint_violations)
 
+        # Aplicar a penalidade se houver violação
+        if total_violation > epsilon:
+            penalty = total_violation  # Penalidade linear
+            return objective_value + penalty
+        else:
+            return objective_value
+        
     def generate_individual(self):
         individual = []
         for i in range(13):
@@ -86,7 +124,7 @@ class GeneticProgramming:
             else:
                 individual.append(random.uniform(0, 1))
         return individual
-
+    
     def generate_population(self):
         return [self.generate_individual() for _ in range(self.pop_size)]
 
@@ -147,8 +185,18 @@ class GeneticProgramming:
 
     def run(self):
         population = self.generate_population()
-        best_solutions = []
+        best_fitness = math.inf
+        best_solution = None
+
         for _ in range(self.num_generations):
+            evaluated_population = [(individual, self.evaluate(individual)) for individual in population]
+
+            for individual, fitness in evaluated_population:
+                if fitness < best_fitness:
+                    best_fitness = fitness
+                    best_solution = individual
+
+            # Perform selection, crossover, and mutation to generate a new population
             new_population = []
             for _ in range(self.pop_size):
                 parent1 = self.selection(population)
@@ -158,47 +206,11 @@ class GeneticProgramming:
                 child2 = self.mutate(child2)
                 child1 = self.enforce_constraints(child1)
                 child2 = self.enforce_constraints(child2)
-                new_population.extend([child1, child2])
+                new_population.append(child1)
+                new_population.append(child2)
+
             population = new_population
-            best_solution = min(population, key=self.evaluate)
-            best_solutions.append(best_solution)
-        
-        return best_solutions
-# Configuration A: Penalty Estática
-gp_a = GeneticProgramming(pop_size=100, num_generations=100, tournament_size=5, mutation_rate=0.1, penalty_method="static_penalty")
-results_a = []
-for _ in range(30):
-    best_solutions_a = gp_a.run()
-    results_a.append([gp_a.evaluate(solution) for solution in best_solutions_a])
 
-# Configuration B: ɛ-constrained method
-gp_b = GeneticProgramming(pop_size=100, num_generations=100, tournament_size=5, mutation_rate=0.1, penalty_method="epsilon_constraint")
-results_b = []
-for _ in range(30):
-    best_solutions_b = gp_b.run()
-    results_b.append([gp_b.evaluate(solution) for solution in best_solutions_b])
+        decision_variables = best_solution[:13] if best_solution is not None else None
 
-# Configuration A: Penalty Estática
-table_a = []
-for i, result in enumerate(results_a):
-    row = [i + 1, statistics.mean(result), min(result), max(result), statistics.stdev(result)]
-    table_a.append(row)
-
-# Configuration B: ɛ-constrained method
-table_b = []
-for i, result in enumerate(results_b):
-    row = [i + 1, statistics.mean(result), min(result), max(result), statistics.stdev(result)]
-    table_b.append(row)
-
-# Print the table
-print("Configuration A: Penalty Static")
-print("{:<5s} {:<10s} {:<10s} {:<10s} {:<10s}".format("Run", "Mean", "Min", "Max", "Std Dev"))
-for row in table_a:
-    print("{:<5d} {:<10.4f} {:<10.4f} {:<10.4f} {:<10.4f}".format(*row))
-
-print()
-
-print("Configuration B: ɛ-constrained method")
-print("{:<5s} {:<10s} {:<10s} {:<10s} {:<10s}".format("Run", "Mean", "Min", "Max", "Std Dev"))
-for row in table_b:
-    print("{:<5d} {:<10.4f} {:<10.4f} {:<10.4f} {:<10.4f}".format(*row))
+        return self.evaluate(best_solution), decision_variables

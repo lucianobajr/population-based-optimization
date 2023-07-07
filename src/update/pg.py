@@ -28,39 +28,39 @@ class GeneticProgramming:
 
         # Constraint g1
         g1_penalty = max(0, 2 * individual[0] + 2 * individual[1] + individual[9] + individual[10] - 10)
-        penalty += 1000 * g1_penalty
+        penalty += math.pow(g1_penalty,2)
 
         # Constraint g2
         g2_penalty = max(0, 2 * individual[0] + 2 * individual[2] + individual[9] + individual[11] - 10)
-        penalty += 1000 * g2_penalty
+        penalty += math.pow(g2_penalty,2)
 
         # Constraint g3
         g3_penalty = max(0, 2 * individual[1] + 2 * individual[2] + individual[10] + individual[11] - 10)
-        penalty += 1000 * g3_penalty
+        penalty += math.pow(g3_penalty,2)
 
         # Constraint g4
         g4_penalty = max(0, -8 * individual[0] + individual[9])
-        penalty += 1000 * g4_penalty
+        penalty += math.pow(g4_penalty,2)
 
         # Constraint g5
         g5_penalty = max(0, -8 * individual[1] + individual[10])
-        penalty += 1000 * g5_penalty
+        penalty += math.pow(g5_penalty,2)
 
         # Constraint g6
         g6_penalty = max(0, -8 * individual[2] + individual[11])
-        penalty += 1000 * g6_penalty
+        penalty += math.pow(g6_penalty,2)
 
         # Constraint g7
         g7_penalty = max(0, -2 * individual[3] - individual[4] + individual[9])
-        penalty += 1000 * g7_penalty
+        penalty += math.pow(g7_penalty,2)
 
         # Constraint g8
         g8_penalty = max(0, -2 * individual[5] - individual[6] + individual[10])
-        penalty += 1000 * g8_penalty
+        penalty += math.pow(g8_penalty,2)
 
         # Constraint g9
         g9_penalty = max(0, -2 * individual[7] - individual[8] + individual[11])
-        penalty += 1000 * g9_penalty
+        penalty += math.pow(g9_penalty,2)
 
         # Add constraints for upper and lower bounds of variables
         for i in range(len(individual)):

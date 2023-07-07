@@ -33,7 +33,7 @@ class ResultsTable:
             'Média': [mean_a, mean_b],
             'Desvio Padrão': [std_a, std_b]
         }
-        for i in range(1, 14):
+        for i in range(1, 5):
             table_data[f'X{i}'] = [decision_variables_a[i-1], decision_variables_b[i-1]]
 
         table = pd.DataFrame(table_data)
@@ -47,7 +47,7 @@ class ResultsTable:
             'Desvio Padrão': [std_a, std_b]
         }
 
-        for i in range(1, 14):
+        for i in range(1, 5):
             table_data[f'X{i}'] = [decision_variables_a[i-1], decision_variables_b[i-1]]
 
         table = pd.DataFrame(table_data)

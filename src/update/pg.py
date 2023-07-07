@@ -18,7 +18,7 @@ class GeneticProgramming:
             return self.objective_function(individual) + penalty
         elif self.penalty_method == "epsilon_constraint":
             violation = self.calculate_epsilon_constraint_method(individual)
-            if violation > 0:
+            if violation < 0:
                 return math.inf
             else:
                 return self.objective_function(individual)

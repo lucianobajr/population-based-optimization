@@ -185,9 +185,18 @@ class GeneticProgramming:
 
     def run(self):
         population = self.generate_population()
-        best_solutions = []
-        
+        best_fitness = math.inf
+        best_solution = None
+
         for _ in range(self.num_generations):
+            evaluated_population = [(individual, self.evaluate(individual)) for individual in population]
+
+            for individual, fitness in evaluated_population:
+                if fitness < best_fitness:
+                    best_fitness = fitness
+                    best_solution = individual
+
+            # Perform selection, crossover, and mutation to generate a new population
             new_population = []
             for _ in range(self.pop_size):
                 parent1 = self.selection(population)
@@ -199,8 +208,9 @@ class GeneticProgramming:
                 child2 = self.enforce_constraints(child2)
                 new_population.append(child1)
                 new_population.append(child2)
+
             population = new_population
-            best_solution = min(population, key=self.evaluate)
-            best_solutions.append(best_solution)
-        
-        return best_solutions
+
+        decision_variables = best_solution[:13] if best_solution is not None else None
+
+        return self.evaluate(best_solution), decision_variables

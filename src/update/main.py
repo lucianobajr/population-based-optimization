@@ -2,6 +2,13 @@ import statistics
 
 from pg import GeneticProgramming
 
+
+gp_a = GeneticProgramming(pop_size=100, num_generations=100, tournament_size=5, mutation_rate=0.1, penalty_method="static_penalty")
+
+print(gp_a.run())
+
+
+'''
 # Configuration A: Penalty Estática
 gp_a = GeneticProgramming(pop_size=100, num_generations=100, tournament_size=5, mutation_rate=0.1, penalty_method="static_penalty")
 results_a = []
@@ -40,3 +47,4 @@ print("Configuration B: ɛ-constrained method")
 print("{:<5s} {:<10s} {:<10s} {:<10s} {:<10s}".format("Run", "Mean", "Min", "Max", "Std Dev"))
 for row in table_b:
     print("{:<5d} {:<10.4f} {:<10.4f} {:<10.4f} {:<10.4f}".format(*row))
+'''

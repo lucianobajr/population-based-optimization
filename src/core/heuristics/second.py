@@ -1,7 +1,7 @@
 import random
 import math
 
-class GeneticProgramming:
+class GeneticProgrammingSecond:
     def __init__(self, pop_size, num_generations, tournament_size, mutation_rate, penalty_method):
         self.pop_size = pop_size
         self.num_generations = num_generations
@@ -14,79 +14,133 @@ class GeneticProgramming:
 
     def evaluate(self, individual):
         if self.penalty_method == "static_penalty":
-            penalty = self.calculate_static_penalty(individual)
-            return self.objective_function(individual) + penalty
+            penalty = self.static_penalty(individual)
         elif self.penalty_method == "epsilon_constraint":
-            violation = self.calculate_epsilon_constraint_method(individual)
-            if violation < 0:
-                return math.inf
-            else:
-                return self.objective_function(individual)
+            penalty = self.epsilon_constraint(individual)
+        else:
+            raise ValueError("Invalid penalty_method")
 
-    def calculate_static_penalty(self, individual):
+        return self.objective_function(individual) + penalty
+
+    def static_penalty(self, individual):
         penalty = 0
 
         # Constraint g1
-        g1_penalty = max(0, -individual[3] + individual[2] - 0.55)
-        penalty += math.pow(g1_penalty, 2)
+        g1 = -individual[3] + individual[2] - 0.55
+        if g1 > 0:
+            penalty += 1000 * g1**2
 
         # Constraint g2
-        g2_penalty = max(0, -individual[2] + individual[3] - 0.55)
-        penalty += math.pow(g2_penalty, 2)
+        g2 = -individual[2] + individual[3] - 0.55
+        if g2 > 0:
+            penalty += 1000 * g2**2
 
         # Constraint h3
-        h3_penalty = 1000 * math.sin(-individual[2] - 0.25) + 1000 * math.sin(-individual[3] - 0.25) + 894.8 - individual[0]
-        penalty += math.pow(h3_penalty, 2)
+        h3 = 1000 * math.sin(-individual[2] - 0.25) + 1000 * math.sin(-individual[3] - 0.25) + 894.8 - individual[0]
+        if abs(h3) > 0.00001:
+            penalty += 1000 * h3**2
 
         # Constraint h4
-        h4_penalty = 1000 * math.sin(individual[2] - 0.25) + 1000 * math.sin(individual[2] - individual[3] - 0.25) + 894.8 - individual[1]
-        penalty += math.pow(h4_penalty, 2)
+        h4 = 1000 * math.sin(individual[2] - 0.25) + 1000 * math.sin(individual[2] - individual[3] - 0.25) + 894.8 - individual[1]
+        if abs(h4) > 0.00001:
+            penalty += 1000 * h4**2
 
         # Constraint h5
-        h5_penalty = 1000 * math.sin(individual[3] - 0.25) + 1000 * math.sin(individual[3] - individual[2] - 0.25) + 1294.8
-        penalty += math.pow(h5_penalty, 2)
-
-        # Add constraints for upper and lower bounds of variables
-        for i in range(len(individual)):
-            if i < 2:  # x1, x2
-                if individual[i] < 0 or individual[i] > 1200:
-                    penalty += 1000
-            elif i < 4:  # x3, x4
-                if individual[i] < -0.55 or individual[i] > 0.55:
-                    penalty += 1000
+        h5 = 1000 * math.sin(individual[3] - 0.25) + 1000 * math.sin(individual[3] - individual[2] - 0.25) + 1294.8
+        if abs(h5) > 0.00001:
+            penalty += 1000 * h5**2
 
         return penalty
-    
-    def calculate_epsilon_constraint_method(self, individual):
-        # Parameter epsilon
+
+    def epsilon_constraint(self, individual):
+        # Constraint g1
+        g1 = -individual[3] + individual[2] - 0.55
+
+        # Constraint g2
+        g2 = -individual[2] + individual[3] - 0.55
+
+        # Constraint h3
+        h3 = 1000 * math.sin(-individual[2] - 0.25) + 1000 * math.sin(-individual[3] - 0.25) + 894.8 - individual[0]
+
+        # Constraint h4
+        h4 = 1000 * math.sin(individual[2] - 0.25) + 1000 * math.sin(individual[2] - individual[3] - 0.25) + 894.8 - individual[1]
+
+        # Constraint h5
+        h5 = 1000 * math.sin(individual[3] - 0.25) + 1000 * math.sin(individual[3] - individual[2] - 0.25) + 1294.8
+
+        # Check if constraints are satisfied within epsilon
+        if g1 <= 0 and g2 <= 0 and abs(h3) <= 0.00001 and abs(h4) <= 0.00001 and abs(h5) <= 0.00001:
+            return 0
+        else:
+            return math.inf
+
+    def static_penalty(self, individual):
+        penalty = 0
+
+        # Constraint g1
+        if -individual[3] + individual[2] - 0.55 > 0:
+            penalty += 1000 * (-individual[3] + individual[2] - 0.55) ** 2
+
+        # Constraint g2
+        if -individual[2] + individual[3] - 0.55 > 0:
+            penalty += 1000 * (-individual[2] + individual[3] - 0.55) ** 2
+
+        # Constraint h3
+        h3 = 1000 * math.sin(-individual[2] - 0.25) + 1000 * math.sin(-individual[3] - 0.25) + 894.8 - individual[0]
+        if h3 !=0:
+            penalty += 1000 * h3 ** 2
+
+        # Constraint h4
+        h4 = 1000 * math.sin(individual[2] - 0.25) + 1000 * math.sin(individual[2] - individual[3] - 0.25) + 894.8 - individual[1]
+        if h4 !=0:
+            penalty += 1000 * h4 ** 2
+
+        # Constraint h5
+        h5 = 1000 * math.sin(individual[3] - 0.25) + 1000 * math.sin(individual[3] - individual[2] - 0.25) + 1294.8
+        if h5 != 0:
+            penalty += 1000 * h5 ** 2
+
+        return penalty
+
+    def epsilon_constraint(self, individual):
+        # Parâmetro epsilon
         epsilon = 1e-6
 
-        # Evaluate the objective function
+
+        constraint_violations = []
+        
         objective_value = self.objective_function(individual)
 
-        # Calculate constraint violations
-        constraint_violations = []
         # Constraint g1
-        constraint_violations.append(max(0, -individual[3] + individual[2] - 0.55))
-        # Constraint g2
-        constraint_violations.append(max(0, -individual[2] + individual[3] - 0.55))
-        # Constraint h3
-        constraint_violations.append(1000 * math.sin(-individual[2] - 0.25) + 1000 * math.sin(-individual[3] - 0.25) + 894.8 - individual[0])
-        # Constraint h4
-        constraint_violations.append(1000 * math.sin(individual[2] - 0.25) + 1000 * math.sin(individual[2] - individual[3] - 0.25) + 894.8 - individual[1])
-        # Constraint h5
-        constraint_violations.append(1000 * math.sin(individual[3] - 0.25) + 1000 * math.sin(individual[3] - individual[2] - 0.25) + 1294.8)
+        g1 = -individual[3] + individual[2] - 0.55
 
-        # Calculate the total constraint violation
+        # Constraint g2
+        g2 = -individual[2] + individual[3] - 0.55
+
+        # Constraint h3
+        h3 = 1000 * math.sin(-individual[2] - 0.25) + 1000 * math.sin(-individual[3] - 0.25) + 894.8 - individual[0]
+
+        # Constraint h4
+        h4 = 1000 * math.sin(individual[2] - 0.25) + 1000 * math.sin(individual[2] - individual[3] - 0.25) + 894.8 - individual[1]
+
+        # Constraint h5
+        h5 = 1000 * math.sin(individual[3] - 0.25) + 1000 * math.sin(individual[3] - individual[2] - 0.25) + 1294.8
+
+        constraint_violations.append(g1)
+        constraint_violations.append(g2)
+        constraint_violations.append(h3)
+        constraint_violations.append(h4)
+        constraint_violations.append(h5)
+
         total_violation = sum(constraint_violations)
 
-        # Apply penalty if there is a violation
+        # Aplicar a penalidade se houver violação
         if total_violation > epsilon:
-            penalty = total_violation  # Linear penalty
+            penalty = total_violation  # Penalidade linear
             return objective_value + penalty
         else:
             return objective_value
-        
+
     def generate_individual(self):
         individual = []
         for i in range(4):
@@ -127,25 +181,23 @@ class GeneticProgramming:
             individual[3] = individual[2] - 0.55
         # Constraint h3
         h3 = 1000 * math.sin(-individual[2] - 0.25) + 1000 * math.sin(-individual[3] - 0.25) + 894.8 - individual[0]
-        if abs(h3) > 1e-6:
+        if abs(h3) > 0.00001:
             individual[0] += h3
         # Constraint h4
         h4 = 1000 * math.sin(individual[2] - 0.25) + 1000 * math.sin(individual[2] - individual[3] - 0.25) + 894.8 - individual[1]
-        if abs(h4) > 1e-6:
+        if abs(h4) > 0.00001:
             individual[1] += h4
         # Constraint h5
         h5 = 1000 * math.sin(individual[3] - 0.25) + 1000 * math.sin(individual[3] - individual[2] - 0.25) + 1294.8
-        if abs(h5) > 1e-6:
+        if abs(h5) > 0.00001:
             individual[2] += h5
 
         return individual
-
 
     def run(self):
         population = self.generate_population()
         best_fitness = math.inf
         best_solution = None
-
 
         for _ in range(self.num_generations):
             evaluated_population = [(individual, self.evaluate(individual)) for individual in population]

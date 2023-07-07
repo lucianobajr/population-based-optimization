@@ -1,54 +1,72 @@
-import numpy as np
-from genetic_algorithm import GeneticAlgorithm
+import sys
 
-# Configurações do algoritmo genético
-configurations = [
-    {"name": "Configuração A", "penalty_method": "static"},
-    {"name": "Configuração B", "penalty_method": "epsilon"}
-]
+from core.heuristics.first import GeneticProgrammingFirst
+from core.heuristics.second import GeneticProgrammingSecond
 
-# Dicionário para armazenar os resultados
-results = {
-    "Configuração A": {"fitness_values": [], "solutions": []},
-    "Configuração B": {"fitness_values": [], "solutions": []}
-}
+from utils.csv_writer import CSVWriter
+from utils.table import ResultsTable
 
-# Executar o algoritmo 30 vezes para cada configuração
-for config in configurations:
-    for _ in range(30):
-        # Criar uma instância do algoritmo genético com a configuração atual
-        ga = GeneticAlgorithm(
-            pop_size=100,
-            max_generations=100,
-            mutation_rate=0.1,
-            crossover_rate=0.8,
-            n_variables=13,
-            n_inequality_constraints=9,
-            epsilon=0.0001,
-            penalty_method=config["penalty_method"]
-        )
+def bootstrap_first():
+    # Configuration A: Penalty Estática
+    gp_first_a = GeneticProgrammingFirst(pop_size=100, num_generations=100, tournament_size=10, mutation_rate=0.1, penalty_method="static_penalty")
+    results_first_a = []
 
-        # Executar o algoritmo genético
-        best_solution, best_fitness = ga.genetic_algorithm()
+    for _ in range(5):
+        best_solutions_a = gp_first_a.run()
+        results_first_a.append(best_solutions_a)
 
-        # Armazenar os resultados
-        results[config["name"]]["fitness_values"].append(best_fitness)
-        results[config["name"]]["solutions"].append(best_solution)
+    csv_writer = CSVWriter(filename='./out/1-results-a.csv',size=13)
+    csv_writer.write_results(results_first_a)
 
-# Calcular estatísticas
-statistics = {}
-for config_name, result in results.items():
-    fitness_values = result["fitness_values"]
-    statistics[config_name] = {
-        "Minimum": np.min(fitness_values),
-        "Maximum": np.max(fitness_values),
-        "Mean": np.mean(fitness_values),
-        "Standard Deviation": np.std(fitness_values)
-    }
+    # Configuration B: ɛ-constrained method
+    gp_second_b = GeneticProgrammingFirst(pop_size=100, num_generations=100, tournament_size=10, mutation_rate=0.1, penalty_method="epsilon_constraint")
+    results_first_b = []
+    for _ in range(5):
+        best_solutions_b= gp_second_b.run()
+        results_first_b.append(best_solutions_b)
 
-# Imprimir resultados
-print("Resultados:")
-for config_name, stats in statistics.items():
-    print(f"\n{config_name}:")
-    for stat_name, value in stats.items():
-        print(f"{stat_name}: {value}")
+    csv_writer = CSVWriter(filename='./out/1-results-b.csv',size=13)
+    csv_writer.write_results(results_first_b)
+
+    results_table = ResultsTable(filename_a='./out/1-results-a.csv', filename_b='./out/1-results-b.csv')
+    results_table.create_table()
+
+def bootstrap_second():
+    # Configuration A: Penalty Estática
+    gp_first_a = GeneticProgrammingSecond(pop_size=100, num_generations=100, tournament_size=10, mutation_rate=0.1, penalty_method="static_penalty")
+    results_first_a = []
+
+    for _ in range(5):
+        best_solutions_a = gp_first_a.run()
+        results_first_a.append(best_solutions_a)
+
+    csv_writer = CSVWriter(filename='./out/2-results-a.csv',size=4)
+    csv_writer.write_results(results_first_a)
+
+    # Configuration B: ɛ-constrained method
+    gp_second_b = GeneticProgrammingSecond(pop_size=100, num_generations=100, tournament_size=10, mutation_rate=0.1, penalty_method="epsilon_constraint")
+    results_first_b = []
+    for i in range(5):
+        best_solutions_b= gp_second_b.run()
+        results_first_b.append(best_solutions_b)
+
+    csv_writer = CSVWriter(filename='./out/2-results-b.csv',size=4)
+    csv_writer.write_results(results_first_b)
+
+    results_table = ResultsTable(filename_a='./out/2-results-a.csv', filename_b='./out/2-results-b.csv')
+    results_table.create_table()
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python main.py <problem_option>")
+        print("problem_option: 'first' or 'second'")
+        sys.exit(1)
+    
+    problem = sys.argv[1]
+
+    if problem == "first":
+        bootstrap_first()
+    elif problem == "second":
+        bootstrap_second()
+    else:
+        print("Invalid Option!")

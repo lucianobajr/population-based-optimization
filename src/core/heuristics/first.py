@@ -1,7 +1,7 @@
 import random
 import math
 
-class GeneticProgramming:
+class GeneticProgrammingFirst:
     def __init__(self, pop_size, num_generations, tournament_size, mutation_rate, penalty_method):
         self.pop_size = pop_size
         self.num_generations = num_generations
@@ -18,7 +18,7 @@ class GeneticProgramming:
             return self.objective_function(individual) + penalty
         elif self.penalty_method == "epsilon_constraint":
             violation = self.calculate_epsilon_constraint_method(individual)
-            if violation < 0:
+            if violation > 0:
                 return math.inf
             else:
                 return self.objective_function(individual)
